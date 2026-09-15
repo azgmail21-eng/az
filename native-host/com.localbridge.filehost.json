@@ -1,0 +1,9 @@
+{
+  "name": "com.localbridge.filehost",
+  "description": "DeepSeek Local File Bridge - lecture/écriture de fichiers locaux à la demande",
+  "path": "C:\\Users\\remi\\Documents\\deepseek-file-bridge\\deepseek-file-bridge\\native-host\\filehost.bat",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://dkneignkmheflefioigkhofdiflkfmjl/"
+  ]
+}

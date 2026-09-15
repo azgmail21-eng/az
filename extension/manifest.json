@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "DeepSeek Local File Bridge",
+  "version": "1.0.0",
+  "description": "Ajoute un accès lecture/écriture à un dossier local sur chat.deepseek.com, via un Native Messaging Host lancé à la demande.",
+  "permissions": ["nativeMessaging"],
+  "host_permissions": ["https://chat.deepseek.com/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://chat.deepseek.com/*"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_title": "DeepSeek Local File Bridge"
+  }
+}
