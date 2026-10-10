@@ -21,6 +21,24 @@ absolus rejetés.
 
 ---
 
+# ⚡ Arena Auto Native — L'IA dans Documents, zéro clic
+
+Troisième version : extension **Microsoft Edge** + petit programme local
+**verrouillé sur `Documents`** (non modifiable). Après l'installation unique,
+l'agent **lit, crée et écrit sans ta confirmation, sans sélecteur de dossier,
+sans ré-autorisation**. Double sandbox (extension + programme), pas de
+suppression, journal complet.
+
+👉 **Installation et mode d'emploi : [`arena-auto-native/README.md`](arena-auto-native/README.md)**
+👉 **Programme local : [`arena-auto-host/README.md`](arena-auto-host/README.md)**
+
+| | Saver | Auto | **Auto Native** |
+|---|---|---|---|
+| Principe | Sauvegarde manuelle | IA autonome (API navigateur) | **IA autonome (programme local)** |
+| Clics | À chaque fois | 1 au début | **0 après install** |
+
+---
+
 # DeepSeek Local File Bridge
 
 Extension navigateur + Native Messaging Host pour donner à DeepSeek (page web)

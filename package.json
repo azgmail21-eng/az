@@ -4,9 +4,10 @@
   "private": true,
   "description": "Outillage de dev (tests, icônes, dépendances vendorisées) pour l'extension Arena Saver.",
   "scripts": {
-    "test": "node tests/detect.test.mjs && node tests/auto.test.mjs",
+    "test": "node tests/detect.test.mjs && node tests/auto.test.mjs && node tests/autohost.test.mjs",
     "icons": "node tools/make-icons.mjs",
     "icons:auto": "OUT=arena-auto/icons BG=124,58,237 node tools/make-icons.mjs",
+    "icons:native": "OUT=arena-auto-native/icons BG=13,148,136 node tools/make-icons.mjs",
     "postinstall": "node tools/vendor.mjs"
   },
   "devDependencies": {
