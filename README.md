@@ -1,3 +1,44 @@
+# 💾 Arena Saver — Sauvegarde les fichiers créés par l'IA d'Arena
+
+Extension **Microsoft Edge** (compatible Chrome) pour
+[`arena.ai/agent`](https://arena.ai/agent) : détecte automatiquement les
+fichiers et blocs de code créés par l'agent, puis les sauvegarde **dans ton
+dossier Documents** (ou en **ZIP**), avec tout le code dedans.
+
+👉 **Installation et mode d'emploi : [`arena-extension/README.md`](arena-extension/README.md)**
+
+---
+
+# 🤖 Arena Auto — L'IA pilote ton dossier Documents toute seule
+
+Deuxième extension **Microsoft Edge** (compatible Chrome), **indépendante** de
+la précédente : l'agent Arena **lit, crée des dossiers et écrit des fichiers
+tout seul, sans confirmation**, uniquement dans le dossier autorisé
+(`Documents`). Sandbox stricte : chemins relatifs uniquement, `..` et chemins
+absolus rejetés.
+
+👉 **Installation et mode d'emploi : [`arena-auto/README.md`](arena-auto/README.md)**
+
+---
+
+# ⚡ Arena Auto Native — L'IA dans Documents, zéro clic
+
+Troisième version : extension **Microsoft Edge** + petit programme local
+**verrouillé sur `Documents`** (non modifiable). Après l'installation unique,
+l'agent **lit, crée et écrit sans ta confirmation, sans sélecteur de dossier,
+sans ré-autorisation**. Double sandbox (extension + programme), pas de
+suppression, journal complet.
+
+👉 **Installation et mode d'emploi : [`arena-auto-native/README.md`](arena-auto-native/README.md)**
+👉 **Programme local : [`arena-auto-host/README.md`](arena-auto-host/README.md)**
+
+| | Saver | Auto | **Auto Native** |
+|---|---|---|---|
+| Principe | Sauvegarde manuelle | IA autonome (API navigateur) | **IA autonome (programme local)** |
+| Clics | À chaque fois | 1 au début | **0 après install** |
+
+---
+
 # DeepSeek Local File Bridge
 
 Extension navigateur + Native Messaging Host pour donner à DeepSeek (page web)

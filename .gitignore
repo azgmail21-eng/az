@@ -1,0 +1,5 @@
+node_modules/
+
+# Générés par arena-auto-host/install.mjs (chemins machine-spécifiques)
+arena-auto-host/filehost.bat
+arena-auto-host/com.arenaauto.filehost.json

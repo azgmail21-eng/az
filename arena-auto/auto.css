@@ -1,0 +1,168 @@
+/* Arena Auto — styles du panneau et du journal */
+
+#aa-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 350px;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  background: #14161c;
+  color: #e8eaf0;
+  border: 1px solid #4c3a8c;
+  border-radius: 12px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  z-index: 2147483647;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+#aa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #2e3340;
+  background: #1e1a33;
+}
+
+#aa-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-left: 4px;
+}
+
+#aa-dot.on { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+#aa-dot.off { background: #6b7280; }
+
+#aa-header button {
+  background: transparent;
+  border: 1px solid #3a4050;
+  color: #e8eaf0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 1px 8px;
+  margin-left: 4px;
+}
+
+#aa-body {
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.aa-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.aa-row button {
+  background: #262b38;
+  border: 1px solid #3a4050;
+  color: #e8eaf0;
+  border-radius: 7px;
+  padding: 7px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.aa-row button:hover {
+  background: #7c3aed;
+  border-color: #7c3aed;
+}
+
+#aa-folder-row {
+  background: #1b1e27;
+  border: 1px dashed #4c3a8c;
+  border-radius: 7px;
+  padding: 6px 8px;
+}
+
+#aa-folder-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #c4b5fd;
+}
+
+#aa-log {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 8px;
+}
+
+.aa-empty {
+  color: #8b93a7;
+  font-size: 12px;
+  padding: 10px 6px;
+  border: 1px dashed #3a4050;
+  border-radius: 7px;
+}
+
+.aa-entry {
+  background: #1b1e27;
+  border: 1px solid #2e3340;
+  border-left: 3px solid #6b7280;
+  border-radius: 6px;
+  padding: 5px 7px;
+  font-size: 12px;
+}
+
+.aa-entry.aa-ok { border-left-color: #22c55e; }
+.aa-entry.aa-ko { border-left-color: #ef4444; }
+.aa-entry.aa-warn { border-left-color: #f59e0b; }
+.aa-entry.aa-run { border-left-color: #7c3aed; }
+
+.aa-entry .aa-time {
+  color: #8b93a7;
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 11px;
+}
+
+.aa-entry code {
+  font-family: ui-monospace, Consolas, monospace;
+  font-size: 11px;
+  color: #c4b5fd;
+  word-break: break-all;
+}
+
+.aa-entry .aa-detail {
+  color: #8b93a7;
+  font-size: 11px;
+  margin-top: 2px;
+  word-break: break-word;
+}
+
+#aa-hint {
+  font-size: 11px;
+  color: #8b93a7;
+}
+
+#aa-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(640px, 90vw);
+  background: #1e1a33;
+  color: #e8eaf0;
+  border: 1px solid #4c3a8c;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px;
+  z-index: 2147483647;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  display: none;
+}

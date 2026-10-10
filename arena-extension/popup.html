@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<style>
+  body { width: 320px; margin: 0; padding: 12px; background: #14161c; color: #e8eaf0;
+         font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 13px; }
+  h1 { font-size: 14px; margin: 0 0 8px; }
+  h1 .badge { background: #2f6fed; border-radius: 10px; padding: 0 8px; font-size: 12px; }
+  #folder { color: #aeb6c6; font-size: 12px; margin-bottom: 8px; word-break: break-all; }
+  button { width: 100%; margin-bottom: 6px; background: #262b38; border: 1px solid #3a4050;
+           color: #e8eaf0; border-radius: 7px; padding: 8px; cursor: pointer; font-size: 13px; }
+  button:hover:not(:disabled) { background: #313747; }
+  button:disabled { opacity: 0.5; cursor: wait; }
+  button.primary { background: #2f6fed; border-color: #2f6fed; font-weight: 600; }
+  button.primary:hover:not(:disabled) { background: #3f7cf3; }
+  #files { max-height: 180px; overflow-y: auto; margin: 8px 0; border: 1px solid #2e3340;
+           border-radius: 7px; padding: 6px 8px; font-family: ui-monospace, Consolas, monospace;
+           font-size: 11px; color: #aeb6c6; }
+  #files div { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 1px 0; }
+  #msg { font-size: 12px; color: #8b93a7; min-height: 18px; }
+  #msg.ok { color: #7ee2a8; }
+  #msg.err { color: #ff9d9d; }
+  .tip { font-size: 11px; color: #8b93a7; margin-top: 6px; }
+</style>
+</head>
+<body>
+  <h1>💾 Arena Saver <span class="badge" id="count">0</span></h1>
+  <div id="folder">📁 …</div>
+  <button class="primary" id="btn-save">⬇ Tout sauvegarder</button>
+  <button id="btn-zip">Télécharger en ZIP</button>
+  <button id="btn-pick">Choisir le dossier…</button>
+  <button id="btn-rescan">↻ Re-détecter</button>
+  <div id="files"></div>
+  <div id="msg"></div>
+  <div class="tip">💡 Renomme et coche les fichiers dans le panneau affiché sur la page arena.ai. Le bouton « Choisir le dossier » marche mieux depuis ce panneau.</div>
+  <script src="popup.js"></script>
+</body>
+</html>
