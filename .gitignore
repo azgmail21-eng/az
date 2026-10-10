@@ -1,0 +1,4 @@
+# Generated per-machine Edge Native Messaging files (contain local paths/extension IDs)
+native-host/filehost.bat
+native-host/com.arena.documents.json
+native-host/config.json

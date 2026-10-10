@@ -1,22 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "DeepSeek Local File Bridge",
-  "version": "1.0.0",
-  "description": "Ajoute un accès lecture/écriture à un dossier local sur chat.deepseek.com, via un Native Messaging Host lancé à la demande.",
+  "name": "Arena Documents Bridge",
+  "version": "2.0.0",
+  "description": "Permet à Agent Mode d'agir automatiquement sur les fichiers du dossier Documents, et uniquement celui-ci.",
   "permissions": ["nativeMessaging"],
-  "host_permissions": ["https://chat.deepseek.com/*"],
+  "host_permissions": ["https://arena.ai/*"],
   "background": {
     "service_worker": "background.js"
   },
   "content_scripts": [
     {
-      "matches": ["https://chat.deepseek.com/*"],
+      "matches": ["https://arena.ai/agent*"],
       "js": ["content.js"],
       "css": ["content.css"],
       "run_at": "document_idle"
     }
   ],
   "action": {
-    "default_title": "DeepSeek Local File Bridge"
+    "default_title": "Arena Documents Bridge"
   }
 }
