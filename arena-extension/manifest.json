@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Arena FS — Documents pour Agent Mode",
+  "version": "1.0.0",
+  "description": "Permet à l'IA d'Arena.ai (Agent Mode) de créer des dossiers, lire et écrire des fichiers directement dans votre dossier Documents, sans autorisation répétée.",
+  "minimum_chromium_version": "111",
+  "permissions": ["storage"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.arena.ai/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["https://*.arena.ai/*"],
+      "js": ["inject.js"],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Arena FS — Connecter le dossier Documents"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}
