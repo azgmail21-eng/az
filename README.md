@@ -1,115 +1,117 @@
-# DeepSeek Local File Bridge
+# Arena Documents Bridge pour Microsoft Edge
 
-Extension navigateur + Native Messaging Host pour donner à DeepSeek (page web)
-un accès lecture/écriture à **un dossier local que tu choisis**.
+Cette extension permet à **Agent Mode sur arena.ai/agent** de lister, lire et créer des fichiers automatiquement dans le dossier Windows **Documents**.
 
-Aucun processus ne tourne en continu : le navigateur lance le host à la
-demande, reçoit la réponse, puis le termine.
+- L'IA n'a pas besoin d'une confirmation à chaque lecture, création de dossier ou écriture.
+- Elle ne peut agir que dans le dossier Documents reconnu par Windows : aucun mode « tout le disque » n'est fourni.
+- Le pont local est lancé par Edge uniquement lorsqu'une action est demandée ; il ne tourne pas en service permanent.
+- L'extension utilise des commandes textuelles dans des blocs `filebridge`. Ce n'est pas une intégration officielle ni un outil natif d'Arena.
 
----
+> **Important :** l'IA peut lire le contenu de Documents et le renvoyer dans la conversation Arena. Une écriture peut remplacer un fichier existant dans Documents. N'y laisse pas de secrets et garde une sauvegarde des fichiers importants.
 
-## 1. Charger l'extension dans Edge
+## Prérequis
 
-1. Ouvre `edge://extensions`
-2. Active le **Mode développeur** (en bas à gauche)
-3. Clique sur **Charger l'extension décompressée**
-4. Sélectionne le dossier `extension/`
-5. Note l'**ID de l'extension** affiché sous son nom (ex: `abcdefghijkl...`)
+- Windows et Microsoft Edge
+- Node.js installé
+- Le dépôt présent sur le PC où Edge est utilisé
 
-## 2. Installer le Native Host
+## Installation
 
-Prérequis : Node.js installé (tu l'as déjà).
+### 1. Charger l'extension dans Edge
 
-Ouvre un terminal dans le dossier `native-host/` et lance :
+1. Ouvre `edge://extensions`.
+2. Active le **Mode développeur**.
+3. Clique sur **Charger l'extension décompressée** et sélectionne le dossier `extension/` de ce dépôt.
+4. Copie l'ID de l'extension affiché sur sa fiche (32 lettres de `a` à `p`).
 
-**Mode restreint (recommandé)** — accès à un seul dossier :
-```
-node install.mjs --browser edge --extension-id TON_ID_ICI --folder "C:\Users\remi\Documents\DeepSeekFiles"
-```
+### 2. Installer le pont local limité à Documents
 
-**Mode illimité** — accès à tout le disque (sauf Windows/Program Files/ProgramData,
-protégés en dur même dans ce mode) :
-```
-node install.mjs --browser edge --extension-id TON_ID_ICI --unrestricted
-```
+Si tu avais installé l'ancienne extension DeepSeek File Bridge, retire son ancien enregistrement Native Messaging afin qu'il ne reste pas actif :
 
-⚠️ En mode illimité, une mauvaise manipulation (ou une mauvaise interprétation
-d'une instruction par DeepSeek) peut écraser ou supprimer n'importe quel fichier
-personnel accessible à ton compte Windows. Chaque écriture demande une
-confirmation dans le panneau, mais il n'y a pas de retour en arrière une fois
-confirmé — pas de corbeille, pas de sauvegarde automatique. Fais des copies de
-sauvegarde de ce qui compte avant d'utiliser ce mode.
-
-Le script affiche un résumé et confirme l'écriture du manifest + de la clé
-de registre.
-
-## 3. Redémarrer le navigateur
-
-Ferme **complètement** Edge (vérifie dans le Gestionnaire des tâches qu'il
-n'y a plus de `msedge.exe`), puis rouvre-le.
-
-## 4. Utiliser
-
-Va sur `https://chat.deepseek.com`. Un petit panneau **"📁 File Bridge"**
-apparaît en bas à droite de la page, avec trois boutons :
-
-- **Lister** : affiche le contenu du dossier autorisé (ou d'un sous-dossier)
-- **Lire** : lit un fichier et affiche son contenu
-- **Écrire** : crée ou remplace un fichier avec le contenu que tu saisis
-
-Le résultat s'affiche dans la zone de texte du panneau. Tu peux :
-- **Copier le résultat** dans le presse-papier
-- **Insérer dans le chat** pour coller le contenu directement dans le champ
-  de saisie de DeepSeek
-
-## 5. Mode automatique (DeepSeek déclenche les actions lui-même)
-
-Par défaut, c'est toi qui cliques sur les boutons. Pour que **DeepSeek** puisse
-lire/écrire/créer des dossiers directement pendant la conversation, colle ceci
-dans ses paramètres (Personnalisation / instructions système / "Custom
-Instructions" selon la version de l'interface) :
-
-```
-Tu as accès à un pont de fichiers locaux. Quand tu as besoin de lire, écrire,
-lister ou créer un dossier sur l'ordinateur de l'utilisateur, écris UNE ligne
-exactement sous cette forme, sans bloc de code, sans backticks :
-
-FILEBRIDGE_ACTION: {"action":"read","path":"C:\\chemin\\complet\\fichier.txt"}
-FILEBRIDGE_ACTION: {"action":"write","path":"C:\\chemin\\complet\\fichier.txt","content":"le contenu"}
-FILEBRIDGE_ACTION: {"action":"list","path":"C:\\chemin\\complet\\dossier"}
-FILEBRIDGE_ACTION: {"action":"mkdir","path":"C:\\chemin\\complet\\nouveaudossier"}
-
-N'écris qu'une seule action à la fois, attends le résultat avant de continuer.
-Le JSON doit être valide (chemins avec double antislash \\\\).
-```
-
-Une fois cette ligne détectée dans la réponse de DeepSeek, le panneau :
-- l'exécute automatiquement pour `read`, `list`, `mkdir` (aucune confirmation)
-- demande une confirmation dans une popup pour `write` (sécurité)
-- pré-remplit le champ de texte avec le résultat
-
-**Il te reste un clic manuel** : appuyer sur Entrée ou "Envoyer" pour que
-DeepSeek voie le résultat et continue la conversation. Ce n'est pas
-100% invisible — la page web de DeepSeek n'offre pas de vrai mécanisme de
-function calling pour les extensions tierces, donc ce dernier clic est la
-limite technique réelle de cette approche.
-
-Édite directement le fichier `native-host/config.json` généré par
-l'installation, champ `baseDir`. Pas besoin de tout réinstaller.
-
-## Sécurité
-
-- Le host refuse tout chemin qui sortirait du dossier autorisé
-  (protection contre les `../../`).
-- Le manifest natif n'autorise que ton extension précise (`allowed_origins`)
-  à parler au host — aucune autre extension ou site ne peut l'utiliser.
-- Le code est entièrement local et lisible : `native-host/host.mjs` fait
-  une trentaine de lignes utiles, tu peux vérifier exactement ce qu'il fait.
-
-## Désinstaller
-
-```
+```powershell
 reg delete "HKCU\Software\Microsoft\Edge\NativeMessagingHosts\com.localbridge.filehost" /f
 ```
 
-Puis retire l'extension depuis `edge://extensions`.
+Ouvre ensuite PowerShell dans le dépôt, puis lance :
+
+```powershell
+cd .\native-host
+node .\install.mjs --extension-id ID_DE_TON_EXTENSION
+```
+
+Le programme lit le chemin Documents connu de Windows (y compris son éventuel déplacement vers OneDrive), crée le Native Host et l'autorise à communiquer avec **cet ID d'extension seulement**. Il n'existe ni option `--unrestricted`, ni option permettant d'autoriser tout le disque.
+
+### 3. Redémarrer Edge et activer les instructions de l'agent
+
+1. Ferme complètement Edge, puis rouvre-le.
+2. Va sur [https://arena.ai/agent](https://arena.ai/agent). Le panneau **Arena · Documents** doit apparaître en bas à droite.
+3. Clique sur **Tester le pont** : le statut doit indiquer que Documents est connecté.
+4. Clique sur **Copier les instructions IA**, puis colle le texte dans les instructions personnalisées d'Agent Mode. Si Arena ne propose pas de réglage persistant, colle-le au début de la conversation.
+
+## Utilisation
+
+L'agent doit émettre **un bloc de code `filebridge` par action**. L'extension exécute l'action sans popup de confirmation, renvoie le résultat dans le champ de discussion et l'envoie automatiquement si le bouton Envoyer de la page est reconnu. Si l'interface Arena change et que l'envoi automatique n'est pas détecté, le résultat reste prêt dans le champ : clique alors sur **Envoyer**.
+
+Les chemins sont relatifs à Documents, avec `/` comme séparateur. Exemples :
+
+````text
+```filebridge
+ACTION: list
+PATH: .
+```
+````
+
+````text
+```filebridge
+ACTION: read
+PATH: MonProjet/README.md
+```
+````
+
+````text
+```filebridge
+ACTION: mkdir
+PATH: MonProjet/src
+```
+````
+
+Pour créer ou remplacer un fichier, le contenu commence après une ligne contenant exactement `---` :
+
+````text
+```filebridge
+ACTION: write
+PATH: MonProjet/src/main.py
+---
+print("Bonjour")
+```
+````
+
+Actions disponibles : `list`, `read`, `mkdir`, `write`. Les opérations sont limitées au dossier Documents ; la suppression de fichiers n'est pas prise en charge. Les lectures sont limitées à 128 Ko, les écritures à 512 Ko, et l'affichage d'un dossier à 500 éléments.
+
+Le bouton **Pause** suspend le déclenchement automatique dans l'onglet. Les boutons du panneau peuvent aussi servir à tester manuellement une action ; saisis alors un chemin relatif à Documents.
+
+## Limites et sécurité
+
+- Arena Agent Mode n'expose pas ici d'API officielle permettant à une extension tierce d'ajouter de vrais outils. Le pont repère donc uniquement les blocs de code explicitement étiquetés `filebridge` dans les réponses de l'agent.
+- Le Native Host refuse les chemins absolus, les chemins `..`, les lecteurs/partages réseau, les liens symboliques et les jonctions sous Documents. La validation est faite côté extension **et** côté processus local.
+- L'accès est limité au dossier Documents Windows. Les sous-dossiers sont inclus. Une demande de lecture envoie volontairement le contenu lu à Arena dans la conversation.
+- `write` crée ou remplace le fichier cible. Il n'y a pas de confirmation par action ; utilise **Pause** ou retire l'extension si tu ne veux plus d'accès automatique.
+- Ce projet vise Edge sous Windows et doit être chargé en mode développeur. Si l'interface Arena ou son bouton Envoyer change, l'exécution locale reste limitée à Documents, mais le retour automatique du résultat peut nécessiter un clic.
+
+## Vérifier les tests
+
+Depuis la racine du dépôt :
+
+```bash
+node --test native-host/file-operations.test.mjs
+```
+
+## Désinstallation
+
+Dans PowerShell, supprime l'enregistrement du Native Host :
+
+```powershell
+reg delete "HKCU\Software\Microsoft\Edge\NativeMessagingHosts\com.arena.documents" /f
+```
+
+Puis retire l'extension depuis `edge://extensions`. Tu peux aussi supprimer les fichiers générés ignorés par Git dans `native-host/` : `filehost.bat` et `com.arena.documents.json`.

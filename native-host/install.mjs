@@ -1,87 +1,67 @@
 #!/usr/bin/env node
-// Installe le Native Messaging Host pour Edge ou Chrome sur Windows.
-// Usage : node install.mjs --browser edge --extension-id <ID> [--folder "C:\chemin\dossier"]
+// Enregistre le Native Messaging Host pour Microsoft Edge sur Windows.
+// Usage : node install.mjs --extension-id <ID visible sur edge://extensions>
 
 import fs from "node:fs";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
+import { getDocumentsDirectory } from "./windows-folders.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const HOST_NAME = "com.arena.documents";
+const REGISTRY_KEY = `HKCU\\Software\\Microsoft\\Edge\\NativeMessagingHosts\\${HOST_NAME}`;
 
-function getArg(name, fallback) {
-  const i = process.argv.indexOf(`--${name}`);
-  return i !== -1 ? process.argv[i + 1] : fallback;
+function getArg(name) {
+  const index = process.argv.indexOf(`--${name}`);
+  return index === -1 ? undefined : process.argv[index + 1];
 }
 
-const browser = getArg("browser", "edge"); // "edge" ou "chrome"
-const extensionId = getArg("extension-id");
-const folder = getArg("folder");
-const unrestricted = process.argv.includes("--unrestricted");
-
-if (!extensionId) {
-  console.error("Erreur: --extension-id est requis (visible sur edge://extensions).");
+const rawExtensionId = getArg("extension-id");
+if (!rawExtensionId || !/^[a-p]{32}$/i.test(rawExtensionId)) {
+  console.error("Erreur : indique l'ID Edge de l'extension avec --extension-id (32 lettres de a à p).\nTrouve-le sur edge://extensions après avoir chargé extension/.");
   process.exit(1);
 }
+const extensionId = rawExtensionId.toLowerCase();
 
 if (process.platform !== "win32") {
-  console.error("Ce script d'installation ne gère que Windows pour le moment.");
+  console.error("Ce programme d'installation ne gère que Microsoft Edge sous Windows.");
   process.exit(1);
 }
 
-const HOST_NAME = "com.localbridge.filehost";
-const nodeExe = process.execPath; // chemin absolu du node.exe qui exécute ce script
+const documentsDirectory = getDocumentsDirectory();
+fs.mkdirSync(documentsDirectory, { recursive: true });
+
+// Le navigateur lance ce petit wrapper à la demande, un appel par action.
+const nodeExecutable = process.execPath;
 const hostScript = path.join(__dirname, "host.mjs");
-const wrapperBat = path.join(__dirname, "filehost.bat");
+const wrapperPath = path.join(__dirname, "filehost.bat");
 const manifestPath = path.join(__dirname, `${HOST_NAME}.json`);
-const configPath = path.join(__dirname, "config.json");
 
-// 1. Écrit la config
-const baseDir = folder || path.join(process.env.USERPROFILE || ".", "DeepSeekFiles");
-if (!unrestricted) fs.mkdirSync(baseDir, { recursive: true });
-fs.writeFileSync(
-  configPath,
-  JSON.stringify({ unrestricted, baseDir }, null, 2),
-  "utf-8"
-);
-if (unrestricted) {
-  console.log("⚠️  Mode ILLIMITÉ activé : accès à tout le disque (sauf Windows/Program Files/ProgramData).");
-} else {
-  console.log(`Dossier autorisé : ${baseDir}`);
-}
+const wrapper = `@echo off\r\nchcp 65001 >nul\r\n"${nodeExecutable}" "${hostScript}" %*\r\n`;
+fs.writeFileSync(wrapperPath, wrapper, "utf8");
 
-// 2. Écrit le wrapper .bat (référence absolue à node.exe, pas de dépendance au PATH)
-const batContent = `@echo off\r\n"${nodeExe}" "${hostScript}" %*\r\n`;
-fs.writeFileSync(wrapperBat, batContent, "utf-8");
-console.log(`Wrapper créé : ${wrapperBat}`);
-
-// 3. Écrit le manifest natif
-const manifest = {
+const nativeManifest = {
   name: HOST_NAME,
-  description: "DeepSeek Local File Bridge - lecture/écriture de fichiers locaux à la demande",
-  path: wrapperBat,
+  description: "Arena Documents Bridge - accès limité au dossier Documents Windows",
+  path: wrapperPath,
   type: "stdio",
   allowed_origins: [`chrome-extension://${extensionId}/`],
 };
-fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2), "utf-8");
-console.log(`Manifest créé : ${manifestPath}`);
-
-// 4. Enregistre la clé de registre (HKCU, pas besoin de droits admin)
-const browserKey = browser === "chrome" ? "Google\\Chrome" : "Microsoft\\Edge";
-const regPath = `HKCU\\Software\\${browserKey}\\NativeMessagingHosts\\${HOST_NAME}`;
+fs.writeFileSync(manifestPath, JSON.stringify(nativeManifest, null, 2), "utf8");
 
 try {
-  execFileSync("reg", ["add", regPath, "/ve", "/t", "REG_SZ", "/d", manifestPath, "/f"], {
-    stdio: "inherit",
-  });
-  console.log(`Registre mis à jour : ${regPath}`);
-} catch (e) {
-  console.error("Échec de l'écriture du registre :", e.message);
+  execFileSync(
+    "reg.exe",
+    ["add", REGISTRY_KEY, "/ve", "/t", "REG_SZ", "/d", manifestPath, "/f"],
+    { stdio: "inherit", windowsHide: true }
+  );
+} catch (error) {
+  console.error("Échec de l'enregistrement du Native Host dans le registre :", error.message);
   process.exit(1);
 }
 
-console.log("\nInstallation terminée.");
-console.log(`Host: ${HOST_NAME}`);
-console.log(`Navigateur: ${browser}`);
-console.log(`Origine autorisée: chrome-extension://${extensionId}/`);
-console.log("\nRedémarre complètement le navigateur (tous les processus fermés) avant de tester.");
+console.log("\nInstallation terminée pour Microsoft Edge.");
+console.log(`Dossier autorisé : ${documentsDirectory}`);
+console.log("Les actions automatiques sont limitées à ce dossier. Aucun mode illimité n'existe.");
+console.log("Redémarre complètement Edge pour que le Native Host soit chargé.");
