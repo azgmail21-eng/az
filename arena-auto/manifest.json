@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Arena Auto — L'IA pilote ton dossier Documents",
+  "version": "1.0.0",
+  "description": "L'agent Arena lit, crée et écrit des fichiers dans ton dossier autorisé (Documents), toute seule, sans confirmation. Sandbox stricte : rien ne sort du dossier choisi.",
+  "permissions": ["storage"],
+  "host_permissions": ["https://arena.ai/*", "https://lmarena.ai/*"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Arena Auto",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://arena.ai/*", "https://lmarena.ai/*"],
+      "js": ["autofs.js", "auto.js"],
+      "css": ["auto.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

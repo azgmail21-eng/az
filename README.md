@@ -9,6 +9,18 @@ dossier Documents** (ou en **ZIP**), avec tout le code dedans.
 
 ---
 
+# 🤖 Arena Auto — L'IA pilote ton dossier Documents toute seule
+
+Deuxième extension **Microsoft Edge** (compatible Chrome), **indépendante** de
+la précédente : l'agent Arena **lit, crée des dossiers et écrit des fichiers
+tout seul, sans confirmation**, uniquement dans le dossier autorisé
+(`Documents`). Sandbox stricte : chemins relatifs uniquement, `..` et chemins
+absolus rejetés.
+
+👉 **Installation et mode d'emploi : [`arena-auto/README.md`](arena-auto/README.md)**
+
+---
+
 # DeepSeek Local File Bridge
 
 Extension navigateur + Native Messaging Host pour donner à DeepSeek (page web)

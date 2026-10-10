@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<style>
+  body { width: 330px; margin: 0; padding: 12px; background: #14161c; color: #e8eaf0;
+         font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 13px; }
+  h1 { font-size: 14px; margin: 0 0 8px; }
+  #dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-left: 4px; }
+  #dot.on { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+  #dot.off { background: #6b7280; }
+  #folder { color: #c4b5fd; font-size: 12px; margin-bottom: 8px; word-break: break-all; }
+  #stats { color: #8b93a7; font-size: 12px; margin-bottom: 8px; }
+  button { width: 100%; margin-bottom: 6px; background: #262b38; border: 1px solid #3a4050;
+           color: #e8eaf0; border-radius: 7px; padding: 8px; cursor: pointer; font-size: 13px; }
+  button:hover:not(:disabled) { background: #7c3aed; border-color: #7c3aed; }
+  button:disabled { opacity: 0.5; cursor: wait; }
+  #log { max-height: 200px; overflow-y: auto; margin: 8px 0; font-size: 11px; color: #aeb6c6; }
+  #log div { padding: 3px 6px; border-left: 3px solid #6b7280; margin-bottom: 4px;
+             background: #1b1e27; border-radius: 0 5px 5px 0; word-break: break-word; }
+  #log div.aa-ok { border-left-color: #22c55e; }
+  #log div.aa-ko { border-left-color: #ef4444; }
+  #log div.aa-warn { border-left-color: #f59e0b; }
+  #log code { font-family: ui-monospace, Consolas, monospace; color: #c4b5fd; }
+  #msg { font-size: 12px; color: #8b93a7; min-height: 18px; }
+  #msg.ok { color: #7ee2a8; }
+  #msg.err { color: #ff9d9d; }
+  .tip { font-size: 11px; color: #8b93a7; margin-top: 6px; }
+</style>
+</head>
+<body>
+  <h1>🤖 Arena Auto <span id="dot" class="on"></span></h1>
+  <div id="folder">📁 …</div>
+  <div id="stats"></div>
+  <button id="btn-toggle">⏸ Couper le pilote auto</button>
+  <button id="btn-pick">Choisir le dossier autorisé…</button>
+  <button id="btn-rescan">↻ Re-scanner la page</button>
+  <div id="log"></div>
+  <div id="msg"></div>
+  <div class="tip">💡 Le pilote exécute les blocs ```arenafs de l’IA sans confirmation, uniquement dans le dossier autorisé. Le bouton « Choisir » marche mieux depuis le panneau sur la page.</div>
+  <script src="popup.js"></script>
+</body>
+</html>

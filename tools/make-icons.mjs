@@ -5,7 +5,12 @@ import { deflateSync } from 'node:zlib';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const outDir = join(dirname(fileURLToPath(import.meta.url)), '..', 'arena-extension', 'icons');
+const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const outDir = process.env.OUT
+  ? join(root, process.env.OUT)
+  : join(root, 'arena-extension', 'icons');
+// Couleur de fond "R,G,B" (défaut : bleu Arena Saver ; ex: violet Arena Auto).
+const BG = (process.env.BG || '37,99,235').split(',').map(Number);
 mkdirSync(outDir, { recursive: true });
 
 // --- CRC32 (requis par le format PNG) ---
@@ -68,7 +73,6 @@ function draw(size) {
     const i = (y * S + x) * 4;
     buf[i] = r; buf[i + 1] = g; buf[i + 2] = b; buf[i + 3] = a;
   };
-  const BG = [37, 99, 235];      // bleu
   const DOC = [248, 250, 252];   // blanc
   const FOLD = [147, 197, 253];  // bleu clair (coin plié)
   const ARROW = [22, 163, 74];   // vert
