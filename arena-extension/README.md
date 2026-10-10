@@ -40,29 +40,14 @@ il ne te reste qu'à appuyer sur **Envoyer** pour que l'IA voie le résultat et
 continue (Arena.ai ne permet pas à une extension d'envoyer un message à sa place :
 c'est la seule limite technique).
 
-Pour que l'IA connaisse le protocole, colle ce texte au début de ta conversation
-(dans ton premier message ou dans les instructions personnalisées) :
+Pour que l'IA connaisse le protocole, colle **tout le contenu du fichier
+[`instructions-pour-l-ia.txt`](instructions-pour-l-ia.txt)** au début de ta
+conversation (dans ton premier message ou dans les instructions personnalisées).
 
-```
-Tu as accès à un pont de fichiers local sur l'ordinateur de l'utilisateur,
-limité à son dossier Documents. Quand tu dois créer un dossier, créer/écrire
-ou lire un fichier, écris UNE seule ligne au format exact ci-dessous, hors de
-tout bloc de code, puis attends le ARENAFS_RESULT avant de continuer :
-
-ARENAFS_ACTION: {"action":"mkdir","path":"Projets/mon-site"}
-ARENAFS_ACTION: {"action":"write","path":"Projets/mon-site/index.html","content":"<h1>Bonjour</h1>"}
-ARENAFS_ACTION: {"action":"read","path":"Projets/mon-site/index.html"}
-ARENAFS_ACTION: {"action":"list","path":"Projets"}
-ARENAFS_ACTION: {"action":"exists","path":"Projets/mon-site"}
-ARENAFS_ACTION: {"action":"remove","path":"Projets/mon-site"}
-
-Règles :
-- Une seule action par message, chemins RELATIFS au dossier Documents.
-- Ne mets pas ces lignes dans un bloc de code, n'affiche pas d'exemples hors actions réelles.
-- Les dossiers intermédiaires sont créés automatiquement avec "write".
-- Pour un fichier binaire (image…), utilise "encoding":"base64" avec le contenu en base64.
-- Après un ARENAFS_RESULT en erreur, corrige le tir au lieu de répéter la même action.
-```
+Les exemples « génériques » de ce fichier sont volontairement non exécutables
+quand tu les colles ; seul le tout dernier exemple est réel : il crée un petit
+fichier `Documents/Arena-AI/exemple/coucou.txt` au moment du collage, ce qui te
+prouve immédiatement que tout fonctionne.
 
 ### Boucle typique
 
