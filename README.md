@@ -1,3 +1,28 @@
+# Ponts de fichiers locaux pour IA
+
+Deux projets dans ce dépôt pour donner à une IA un accès lecture/écriture à tes
+fichiers locaux :
+
+| Projet | IA ciblée | Dossier | Technologie |
+|---|---|---|---|
+| [`arena-extension/`](arena-extension/README.md) | **Arena.ai (Agent Mode)** | `Documents` uniquement, sans autorisation répétée | Extension seule (File System Access) — rien à installer |
+| `extension/` + `native-host/` | DeepSeek (chat.deepseek.com) | Dossier au choix, ou disque entier | Extension + Native Messaging Host (Node.js) |
+
+---
+
+# Arena FS (Arena.ai) — résumé rapide
+
+Extension Edge qui laisse l'IA d'Arena.ai **créer des dossiers, créer et lire des
+fichiers dans ton dossier Documents sans confirmation**, sans jamais pouvoir en
+sortir. Installation : `edge://extensions` → Mode développeur → Charger
+l'extension décompressée → dossier `arena-extension/`. Puis clique sur l'icône de
+l'extension pour connecter ton dossier Documents (une seule fois).
+
+**Toute la doc (protocole à coller dans le chat, API `window.arenaFS`, sécurité) :
+[`arena-extension/README.md`](arena-extension/README.md).**
+
+---
+
 # DeepSeek Local File Bridge
 
 Extension navigateur + Native Messaging Host pour donner à DeepSeek (page web)
