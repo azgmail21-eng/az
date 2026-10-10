@@ -1,3 +1,14 @@
+# 💾 Arena Saver — Sauvegarde les fichiers créés par l'IA d'Arena
+
+Extension **Microsoft Edge** (compatible Chrome) pour
+[`arena.ai/agent`](https://arena.ai/agent) : détecte automatiquement les
+fichiers et blocs de code créés par l'agent, puis les sauvegarde **dans ton
+dossier Documents** (ou en **ZIP**), avec tout le code dedans.
+
+👉 **Installation et mode d'emploi : [`arena-extension/README.md`](arena-extension/README.md)**
+
+---
+
 # DeepSeek Local File Bridge
 
 Extension navigateur + Native Messaging Host pour donner à DeepSeek (page web)

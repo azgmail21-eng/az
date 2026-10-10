@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Arena Saver — Sauvegarde les fichiers de l'IA",
+  "version": "1.0.0",
+  "description": "Détecte les fichiers et blocs de code créés par l'agent Arena et les sauvegarde dans ton dossier (Documents,…) ou en ZIP.",
+  "permissions": ["storage", "downloads"],
+  "host_permissions": ["https://arena.ai/*", "https://lmarena.ai/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Arena Saver",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://arena.ai/*", "https://lmarena.ai/*"],
+      "js": ["vendor/jszip.min.js", "detect.js", "content.js"],
+      "css": ["content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}

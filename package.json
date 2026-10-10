@@ -1,0 +1,15 @@
+{
+  "name": "arena-saver-dev",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Outillage de dev (tests, icônes, dépendances vendorisées) pour l'extension Arena Saver.",
+  "scripts": {
+    "test": "node tests/detect.test.mjs",
+    "icons": "node tools/make-icons.mjs",
+    "postinstall": "node tools/vendor.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^24.1.3",
+    "jszip": "^3.10.1"
+  }
+}

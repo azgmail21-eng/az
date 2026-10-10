@@ -1,0 +1,233 @@
+/* Arena Saver — styles du panneau et des boutons injectés */
+
+#ars-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 370px;
+  max-height: 72vh;
+  display: flex;
+  flex-direction: column;
+  background: #14161c;
+  color: #e8eaf0;
+  border: 1px solid #2e3340;
+  border-radius: 12px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  z-index: 2147483647;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+#ars-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  border-bottom: 1px solid #2e3340;
+  background: #1b1e27;
+}
+
+#ars-header #ars-count {
+  display: inline-block;
+  min-width: 20px;
+  text-align: center;
+  background: #2f6fed;
+  border-radius: 10px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#ars-header button {
+  background: transparent;
+  border: 1px solid #3a4050;
+  color: #e8eaf0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 1px 8px;
+}
+
+#ars-body {
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.ars-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.ars-row button {
+  background: #262b38;
+  border: 1px solid #3a4050;
+  color: #e8eaf0;
+  border-radius: 7px;
+  padding: 7px 8px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.ars-row button:hover:not(:disabled) {
+  background: #313747;
+}
+
+.ars-row button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.ars-row .ars-primary {
+  flex: 1;
+  background: #2f6fed;
+  border-color: #2f6fed;
+  font-weight: 600;
+}
+
+.ars-row .ars-primary:hover:not(:disabled) {
+  background: #3f7cf3;
+}
+
+#ars-folder-row {
+  background: #1b1e27;
+  border: 1px dashed #3a4050;
+  border-radius: 7px;
+  padding: 6px 8px;
+}
+
+#ars-folder-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  color: #aeb6c6;
+}
+
+#ars-status {
+  background: #1b1e27;
+  border: 1px solid #3a4050;
+  border-radius: 7px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
+
+#ars-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.ars-empty {
+  color: #8b93a7;
+  font-size: 12px;
+  text-align: center;
+  padding: 14px 6px;
+  border: 1px dashed #3a4050;
+  border-radius: 7px;
+}
+
+.ars-item {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: #1b1e27;
+  border: 1px solid #2e3340;
+  border-radius: 7px;
+  padding: 5px 6px;
+}
+
+.ars-item .ars-check {
+  flex: none;
+  width: 15px;
+  height: 15px;
+  accent-color: #2f6fed;
+  cursor: pointer;
+}
+
+.ars-item .ars-name {
+  flex: 1;
+  min-width: 0;
+  background: #101218;
+  border: 1px solid #3a4050;
+  color: #e8eaf0;
+  border-radius: 5px;
+  padding: 4px 6px;
+  font-size: 12px;
+  font-family: ui-monospace, Consolas, monospace;
+}
+
+.ars-item .ars-meta {
+  flex: none;
+  font-size: 11px;
+  color: #8b93a7;
+  white-space: nowrap;
+}
+
+.ars-item .ars-one {
+  flex: none;
+  background: transparent;
+  border: 1px solid #3a4050;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 6px;
+}
+
+.ars-item .ars-one:hover {
+  background: #2f6fed;
+  border-color: #2f6fed;
+}
+
+#ars-hint {
+  font-size: 11px;
+  color: #8b93a7;
+}
+
+/* Bouton 💾 posé sur chaque bloc de code de la page */
+.ars-save-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 999999;
+  background: rgba(20, 22, 28, 0.92);
+  border: 1px solid #3a4050;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px 7px;
+  opacity: 0.9;
+}
+
+.ars-save-btn:hover {
+  background: #2f6fed;
+  border-color: #2f6fed;
+  opacity: 1;
+}
+
+/* Toast de notification */
+#ars-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(640px, 90vw);
+  background: #1b1e27;
+  color: #e8eaf0;
+  border: 1px solid #3a4050;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 13px;
+  z-index: 2147483647;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+  display: none;
+}
